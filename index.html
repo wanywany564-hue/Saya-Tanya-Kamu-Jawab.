@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Saya Tanya, Kamu Jawab ><!</title>
+    <title>SAYA TANYA, KAMU JAWAB!</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
     
@@ -57,9 +57,11 @@
             padding: 10px 15px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             font-size: 0.88rem;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         .screen {
@@ -78,7 +80,7 @@
 
         .main-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .badge {
@@ -102,12 +104,24 @@
             font-size: 1.05rem;
         }
 
-        /* Disesuaikan agar banner tampil penuh */
+        .marks-info {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #a5d6a7;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
         .hero-illustration {
             width: 100%;
             border-radius: 16px;
             overflow: hidden;
             margin-bottom: 25px;
+            margin-top: 15px;
         }
 
         .hero-img {
@@ -145,7 +159,7 @@
         .btn-secondary { background: #b0bec5; color: #37474f; }
         .btn-tertiary { background: #fff176; color: #f57f17; }
         .btn-success { background: #66bb6a; color: white; }
-        .btn-speak { background: #ab47bc; color: white; width: 100%; margin-top: 10px; }
+        .btn-speak { background: #ab47bc; color: white; width: 100%; margin-top: 10px; font-size: 1.2rem; }
         .btn-rec { background: #ef5350; color: white; }
         .btn-stop { background: #78909c; color: white; }
         .btn-play { background: #42a5f5; color: white; }
@@ -203,13 +217,9 @@
             background-color: #fafafa;
         }
 
+        /* Teks soalan disembunyikan mengikut kehendak anda */
         .question-text { 
-            font-size: 1.3rem; 
-            font-weight: 700; 
-            color: #01579b; 
-            line-height: 1.4; 
-            margin-bottom: 15px; 
-            text-align: center; 
+            display: none; 
         }
 
         .recording-zone {
@@ -258,8 +268,9 @@
         <section id="home-screen" class="screen active">
             <header class="main-header">
                 <span class="badge">Bahasa Melayu Tahun 4</span>
-                <h1>SAYA TANYA, KAMU JAWAB >< !</h1>
+                <h1>SAYA TANYA, KAMU JAWAB!</h1>
                 <p class="subtitle">Jom belajar menjaga kebersihan dan kesihatan kantin!</p>
+                <div class="marks-info">Setiap soalan memperoleh 2 markah</div>
             </header>
 
             <div class="hero-illustration">
@@ -295,7 +306,7 @@
         <section id="about-screen" class="screen">
             <h2>Tentang Permainan</h2>
             <div class="info-card">
-                <h3>SAYA TANYA, KAMU JAWAB</h3>
+                <h3>Misi Detektif Kantin Bersih</h3>
                 <p>Aplikasi interaktif ini dibina untuk membantu murid Tahun 4 melatih kemahiran lisan dan bertutur bagi topik Kesihatan dan Kebersihan Kantin Sekolah.</p>
             </div>
             <button id="btn-back-home-2" class="btn btn-secondary with-click-sound">Kembali ke Halaman Utama</button>
@@ -316,17 +327,17 @@
                     <img id="question-image" src="gambar1.png" alt="Gambar Soalan" class="question-img">
                 </div>
 
-                <p id="question-text" class="question-text">Pemuatan soalan...</p>
+                <!-- Element teks soalan disembunyikan -->
+                <p id="question-text" class="question-text"></p>
 
-                <!-- Tanpa suara klik -->
-                <button id="btn-listen-question" class="btn btn-speak">Dengar Soalan</button>
+                <!-- Butang Dengar Soalan -->
+                <button id="btn-listen-question" class="btn btn-speak">🔊 Dengar Soalan</button>
                 <audio id="question-audio-player" style="display:none;"></audio>
 
                 <div class="recording-zone">
                     <div id="recording-status" class="status-indicator">Status: Tekan "Mula Rakaman" untuk menjawab.</div>
                     <div id="timer-display" class="timer-display">Masa: 00:00</div>
 
-                    <!-- Tombol rakaman tanpa suara klik -->
                     <div class="controls-grid">
                         <button id="btn-start-rec" class="btn btn-rec">Mula Rakaman</button>
                         <button id="btn-stop-rec" class="btn btn-stop" disabled>Hentikan Rakaman</button>
@@ -366,12 +377,12 @@
 
     <script>
         const questionsData = [
-            { id: 1, question: "Apakah yang perlu kita lakukan sebelum makan?", audioFile: "soalan1.mp3", imageFile: "gambar1.png" },
-            { id: 2, question: "Di manakah kita perlu membuang sampah?", audioFile: "soalan2.mp3", imageFile: "gambar2.png" },
-            { id: 3, question: "Mengapakah kita perlu membasuh tangan sebelum makan?", audioFile: "soalan3.mp3", imageFile: "gambar3.png" },
-            { id: 4, question: "Apakah yang perlu kita lakukan jika meja makan kotor?", audioFile: "soalan4.mp3", imageFile: "gambar4.png" },
-            { id: 5, question: "Apakah yang perlu kita lakukan jika tangan kita kotor?", audioFile: "soalan5.mp3", imageFile: "gambar5.png" },
-            { id: 6, question: "Apakah yang perlu kita lakukan apabila melihat sampah di lantai kantin?", audioFile: "soalan6.mp3", imageFile: "gambar6.png" }
+            { id: 1, question: "Mengapakah kita wajib membasuh tangan menggunakan sabun sebelum dan selepas makan di kantin? Jelaskan.", audioFile: "soalan1.mp3", imageFile: "gambar1.png" },
+            { id: 2, question: "Apakah yang patut kamu katakan apabila melihat kawan kamu ingin terus makan tanpa membasuh tangan yang kotor? Berikan ayat teguran yang sopan.", audioFile: "soalan2.mp3", imageFile: "gambar2.png" },
+            { id: 3, question: "Mengapakah peniaga kantin perlu memakai topi, apron, dan sarung tangan semasa menyediakan makanan? Berikan dua sebab.", audioFile: "soalan3.mp3", imageFile: "gambar3.png" },
+            { id: 4, question: "Apakah kesan kepada kesihatan sekiranya kita makan makanan yang terdedah dan dihinggapi lalat di kantin? Berikan dua kesan.", audioFile: "soalan4.mp3", imageFile: "gambar4.png" },
+            { id: 5, question: "Bagaimanakah cara kamu menegur kawan yang meninggalkan pinggan kotor dan sisa makanan di atas meja selepas makan? Sila beri ayat yang sopan.", audioFile: "soalan5.mp3", imageFile: "gambar5.png" },
+            { id: 6, question: "Di manakah kita sepatutnya membuang bungkus makanan atau plastik minuman selepas selesai makan di kantin? Jelaskan.", audioFile: "soalan6.mp3", imageFile: "gambar6.png" }
         ];
 
         let currentQuestionIndex = 0;
@@ -381,7 +392,6 @@
         let recordingTimer = null;
         let secondsRecorded = 0;
 
-        // Fungsi Memainkan Bunyi Klik
         function playClickSound() {
             const soundClick = document.getElementById('sound-click');
             if (soundClick) {
@@ -390,7 +400,6 @@
             }
         }
 
-        // Fungsi Memainkan Bunyi Sorakan
         function playCheerSound() {
             const soundCheer = document.getElementById('sound-cheer');
             if (soundCheer) {
@@ -399,7 +408,6 @@
             }
         }
 
-        // Hanya memainkan sound-click untuk tombol yang memiliki kelas 'with-click-sound'
         document.addEventListener('click', function(e) {
             const target = e.target.closest('button');
             if (target && target.classList.contains('with-click-sound')) {
@@ -428,7 +436,6 @@
         const progressPercent = document.getElementById('progress-percent');
         const progressBarFill = document.getElementById('progress-bar-fill');
         const questionImage = document.getElementById('question-image');
-        const questionText = document.getElementById('question-text');
 
         const btnListenQuestion = document.getElementById('btn-listen-question');
         const questionAudioPlayer = document.getElementById('question-audio-player');
@@ -487,7 +494,6 @@
             progressBarFill.style.width = `${percent}%`;
 
             questionImage.src = q.imageFile;
-            questionText.innerText = `"${q.question}"`;
 
             resetRecordingUI();
 
@@ -617,7 +623,7 @@
                 item.className = 'rec-item';
                 
                 const title = document.createElement('p');
-                title.innerText = `Soalan ${q.id}: ${q.question}`;
+                title.innerText = `Soalan ${q.id}`;
                 item.appendChild(title);
 
                 if (recordedAudios[idx]) {
