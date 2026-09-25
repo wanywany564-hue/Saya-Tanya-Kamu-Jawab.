@@ -442,34 +442,37 @@
             loadQuestion();
         });
 
-        // TETAPAN SUARA BAKU BAHASA MELAYU & NADA KANAK-KANAK
+        // ENJIN SUARA BAHASA MELAYU BAKU & NADA KANAK-KANAK
         function speakQuestion() {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const qData = questionsData[currentQuestionIndex];
-                const utterance = new SpeechSynthesisUtterance(qData.question);
+                
+                // Menggunakan teks soalan
+                let textToSpeak = qData.question;
+                
+                const utterance = new SpeechSynthesisUtterance(textToSpeak);
 
-                // Tetapkan Bahasa Melayu Baku
+                // Tetapkan kod bahasa baku Bahasa Melayu
                 utterance.lang = "ms-MY";
 
-                // Memuat senarai suara yang disokong oleh peranti/peramban
+                // Cari enjin suara Bahasa Melayu atau Indonesia
                 const voices = window.speechSynthesis.getVoices();
+                let selectedVoice = voices.find(v => v.lang.toLowerCase().includes('ms') || v.lang.toLowerCase().includes('id'));
                 
-                // Cari suara Bahasa Melayu (ms) atau Bahasa Indonesia (id)
-                const malayVoice = voices.find(v => v.lang.includes('ms') || v.lang.includes('id'));
-                if (malayVoice) {
-                    utterance.voice = malayVoice;
+                // Jika jumpa suara tempatan, gunakan
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
                 }
 
-                // Tetapkan Nada & Kelajuan
-                utterance.rate = 0.9; // Kelajuan sebutan baku yang jelas
+                // Tetapkan kelajuan perlahan & jelas untuk sebutan baku
+                utterance.rate = 0.85;
 
+                // Laraskan pitch mengikut watak budak lelaki & perempuan
                 if (qData.character === "Hadif") {
-                    // Hadif: Budak Lelaki (Nada tinggi sederhana)
-                    utterance.pitch = 1.5; 
+                    utterance.pitch = 1.8; // Suara budak lelaki yang tinggi & comel
                 } else {
-                    // Deena: Budak Perempuan (Nada lebih tinggi & ceria)
-                    utterance.pitch = 1.8; 
+                    utterance.pitch = 2.0; // Suara budak perempuan yang paling tinggi & lantang
                 }
 
                 window.speechSynthesis.speak(utterance);
@@ -478,7 +481,6 @@
             }
         }
 
-        // Memastikan senarai suara sedia dimuatkan oleh peramban
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = () => {
                 window.speechSynthesis.getVoices();
@@ -603,6 +605,7 @@
             }
         });
 
+        btnPrevQuestion.disabled = true;
         btnPrevQuestion.addEventListener('click', () => {
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
