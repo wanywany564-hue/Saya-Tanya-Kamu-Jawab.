@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAYA TANYA, KAMU JAWAB!</title>
+    <title>Misi Detektif Kantin Bersih</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Pustaka JSZip untuk memuat turun fail ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     
     <style>
         * {
@@ -159,6 +161,8 @@
         .btn-secondary { background: #b0bec5; color: #37474f; }
         .btn-tertiary { background: #fff176; color: #f57f17; }
         .btn-success { background: #66bb6a; color: white; }
+        .btn-download { background: #0288d1; color: white; margin-top: 8px; font-size: 0.95rem; padding: 8px 14px; }
+        .btn-download-all { background: #2e7d32; color: white; font-size: 1.1rem; margin-bottom: 12px; }
         .btn-speak { background: #ab47bc; color: white; width: 100%; margin-top: 10px; font-size: 1.2rem; }
         .btn-rec { background: #ef5350; color: white; }
         .btn-stop { background: #78909c; color: white; }
@@ -217,10 +221,7 @@
             background-color: #fafafa;
         }
 
-        /* Teks soalan disembunyikan mengikut kehendak anda */
-        .question-text { 
-            display: none; 
-        }
+        .question-text { display: none; }
 
         .recording-zone {
             background: #f9f9f9;
@@ -242,8 +243,8 @@
 
         .congrats-card { text-align: center; }
         .summary-box { background: #f1f8e9; border: 2px solid #c8e6c9; border-radius: 14px; padding: 15px; margin-bottom: 20px; text-align: left; }
-        .recordings-list { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; max-height: 200px; overflow-y: auto; }
-        .rec-item { background: white; padding: 10px; border-radius: 8px; font-size: 0.9rem; border: 1px solid #c8e6c9; }
+        .recordings-list { margin-top: 12px; display: flex; flex-direction: column; gap: 12px; max-height: 260px; overflow-y: auto; }
+        .rec-item { background: white; padding: 12px; border-radius: 10px; font-size: 0.9rem; border: 1px solid #c8e6c9; }
 
         @media (max-width: 600px) {
             .app-container { padding: 15px; }
@@ -268,7 +269,7 @@
         <section id="home-screen" class="screen active">
             <header class="main-header">
                 <span class="badge">Bahasa Melayu Tahun 4</span>
-                <h1>SAYA TANYA, KAMU JAWAB!</h1>
+                <h1>MISI DETEKTIF KANTIN BERSIH</h1>
                 <p class="subtitle">Jom belajar menjaga kebersihan dan kesihatan kantin!</p>
                 <div class="marks-info">Setiap soalan memperoleh 2 markah</div>
             </header>
@@ -294,6 +295,7 @@
                     <li><span class="step-num">3</span> Tekan <strong>Hentikan Rakaman</strong> apabila selesai.</li>
                     <li><span class="step-num">4</span> Dengarkan semula jawapan dengan <strong>Dengar Jawapan</strong>.</li>
                     <li><span class="step-num">5</span> Tekan <strong>Hantar Jawapan</strong> untuk ke soalan seterusnya.</li>
+                    <li><span class="step-num">6</span> Di skrin akhir, muat turun rakaman untuk dihantar kepada cikgu.</li>
                 </ol>
             </div>
             <div class="navigation-buttons">
@@ -327,10 +329,8 @@
                     <img id="question-image" src="gambar1.png" alt="Gambar Soalan" class="question-img">
                 </div>
 
-                <!-- Element teks soalan disembunyikan -->
                 <p id="question-text" class="question-text"></p>
 
-                <!-- Butang Dengar Soalan -->
                 <button id="btn-listen-question" class="btn btn-speak">🔊 Dengar Soalan</button>
                 <audio id="question-audio-player" style="display:none;"></audio>
 
@@ -363,7 +363,11 @@
                 
                 <div class="summary-box">
                     <h3>Ringkasan Jawapan</h3>
-                    <p>Status: <strong style="color: #2e7d32;">6 daripada 6 Soalan Dijawab</strong></p>
+                    <p style="margin-bottom: 10px;">Status: <strong style="color: #2e7d32;">6 daripada 6 Soalan Dijawab</strong></p>
+                    
+                    <!-- Butang Muat Turun Semua ZIP -->
+                    <button id="btn-download-all" class="btn btn-download-all with-click-sound" style="width: 100%;">📦 Muat Turun Semua Jawapan (.ZIP)</button>
+
                     <div id="recordings-list" class="recordings-list"></div>
                 </div>
 
@@ -449,6 +453,7 @@
         const timerDisplay = document.getElementById('timer-display');
         const audioPlayback = document.getElementById('audio-playback');
         const recordingsList = document.getElementById('recordings-list');
+        const btnDownloadAll = document.getElementById('btn-download-all');
 
         function showScreen(screenName) {
             Object.keys(screens).forEach(key => screens[key].classList.remove('active'));
@@ -616,6 +621,49 @@
             }
         });
 
+        function downloadSingleAudio(index) {
+            const blob = recordedAudios[index];
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `Jawapan_Soalan_${index + 1}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        btnDownloadAll.addEventListener('click', async () => {
+            if (typeof JSZip === 'undefined') {
+                alert("Gagal memuat turun pustaka ZIP. Sila muat turun rakaman satu per satu.");
+                return;
+            }
+
+            const zip = new JSZip();
+            let count = 0;
+
+            for (let idx in recordedAudios) {
+                const blob = recordedAudios[idx];
+                const fileName = `Jawapan_Soalan_${parseInt(idx) + 1}.webm`;
+                zip.file(fileName, blob);
+                count++;
+            }
+
+            if (count === 0) {
+                alert("Tiada rakaman untuk dimuat turun.");
+                return;
+            }
+
+            const content = await zip.generateAsync({ type: "blob" });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(content);
+            a.download = "Jawapan_Kantin_Tahun4.zip";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+
         function renderEndScreen() {
             recordingsList.innerHTML = '';
             questionsData.forEach((q, idx) => {
@@ -624,6 +672,7 @@
                 
                 const title = document.createElement('p');
                 title.innerText = `Soalan ${q.id}`;
+                title.style.fontWeight = 'bold';
                 item.appendChild(title);
 
                 if (recordedAudios[idx]) {
@@ -633,6 +682,13 @@
                     player.style.width = '100%';
                     player.style.marginTop = '5px';
                     item.appendChild(player);
+
+                    // Butang muat turun individu
+                    const dlBtn = document.createElement('button');
+                    dlBtn.className = 'btn btn-download';
+                    dlBtn.innerText = `💾 Muat Turun Soalan ${q.id}`;
+                    dlBtn.addEventListener('click', () => downloadSingleAudio(idx));
+                    item.appendChild(dlBtn);
                 } else {
                     const noRec = document.createElement('span');
                     noRec.style.color = 'red';
