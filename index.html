@@ -8,9 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================
-           1. GAYA CSS (STYLE)
-           ========================================== */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -22,7 +19,6 @@
             --primary-blue: #4bb3fd;
             --secondary-blue: #0277bd;
             --clean-green: #2e7d32;
-            --light-green: #a5d6a7;
             --soft-yellow: #fff9c4;
             --bright-yellow: #fbc02d;
             --danger-red: #e53935;
@@ -54,7 +50,6 @@
             border: 4px solid #b2ebf2;
         }
 
-        /* NOTIS PERINGATAN */
         .notice-banner {
             background-color: var(--soft-yellow);
             border: 2px dashed var(--bright-yellow);
@@ -67,7 +62,6 @@
             margin-bottom: 20px;
         }
 
-        /* SKRIN / HALAMAN */
         .screen {
             display: none;
             animation: fadeIn 0.4s ease-in-out;
@@ -82,7 +76,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* HALAMAN UTAMA */
         .main-header {
             text-align: center;
             margin-bottom: 20px;
@@ -109,7 +102,6 @@
             font-size: 1.05rem;
         }
 
-        /* ILUSTRASI KANTIN */
         .hero-illustration {
             background: linear-gradient(180deg, #e1f5fe 0%, #b3e5fc 100%);
             border-radius: 16px;
@@ -140,17 +132,9 @@
             gap: 10px;
         }
 
-        .avatar {
-            font-size: 2.2rem;
-        }
+        .avatar { font-size: 2.2rem; }
+        .char-name { font-weight: 800; font-size: 1.1rem; color: #0277bd; }
 
-        .char-name {
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: #0277bd;
-        }
-
-        /* BUTANG */
         .action-buttons, .navigation-buttons, .end-actions {
             display: flex;
             flex-direction: column;
@@ -171,19 +155,8 @@
             gap: 8px;
         }
 
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .btn:not(:disabled):hover {
-            transform: translateY(-2px);
-        }
-
-        .btn:not(:disabled):active {
-            transform: translateY(0);
-        }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .btn:not(:disabled):hover { transform: translateY(-2px); }
 
         .btn-primary { background: var(--primary-blue); color: white; }
         .btn-secondary { background: #b0bec5; color: #37474f; }
@@ -195,7 +168,6 @@
         .btn-play { background: #42a5f5; color: white; }
         .btn-retry { background: #ffa726; color: white; }
 
-        /* CARA BERMAIN & TENTANG */
         .instructions-card, .info-card {
             background: #f4fbfd;
             border: 2px solid #b2ebf2;
@@ -204,18 +176,8 @@
             margin-bottom: 20px;
         }
 
-        .steps-list {
-            list-style: none;
-            margin-bottom: 15px;
-        }
-
-        .steps-list li {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-        }
+        .steps-list { list-style: none; margin-bottom: 15px; }
+        .steps-list li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
 
         .step-num {
             background: var(--secondary-blue);
@@ -231,42 +193,11 @@
             flex-shrink: 0;
         }
 
-        .tip-box {
-            background: var(--soft-yellow);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            color: #f57f17;
-        }
+        .progress-container { margin-bottom: 20px; }
+        .progress-label { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 6px; }
+        .progress-bar-bg { background: #e0e0e0; height: 14px; border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { background: var(--primary-blue); height: 100%; width: 0%; transition: width 0.3s ease; }
 
-        /* PROGRESS BAR */
-        .progress-container {
-            margin-bottom: 20px;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            margin-bottom: 6px;
-            font-size: 0.95rem;
-        }
-
-        .progress-bar-bg {
-            background: #e0e0e0;
-            height: 14px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background: var(--primary-blue);
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        /* KAD SOALAN */
         .question-card {
             background: #ffffff;
             border: 3px solid #81d4fa;
@@ -275,36 +206,10 @@
             margin-bottom: 20px;
         }
 
-        .character-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #e0f7fa;
-            padding-bottom: 10px;
-        }
+        .character-header { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; border-bottom: 2px solid #e0f7fa; padding-bottom: 10px; }
+        .avatar-small { font-size: 2.2rem; background: #e1f5fe; padding: 5px; border-radius: 50%; }
+        .question-text { font-size: 1.3rem; font-weight: 700; color: #01579b; line-height: 1.4; margin-bottom: 15px; }
 
-        .avatar-small {
-            font-size: 2.2rem;
-            background: #e1f5fe;
-            padding: 5px;
-            border-radius: 50%;
-        }
-
-        .char-label {
-            font-size: 0.8rem;
-            color: #78909c;
-        }
-
-        .question-text {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #01579b;
-            line-height: 1.4;
-            margin-bottom: 15px;
-        }
-
-        /* RUANG RAKAMAN */
         .recording-zone {
             background: #f9f9f9;
             border: 2px dashed #b0bec5;
@@ -314,115 +219,39 @@
             text-align: center;
         }
 
-        .status-indicator {
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: #455a64;
-        }
+        .status-indicator { font-weight: 700; margin-bottom: 5px; color: #455a64; }
+        .status-indicator.recording { color: var(--danger-red); animation: blink 1s infinite; }
 
-        .status-indicator.recording {
-            color: var(--danger-red);
-            animation: blink 1s infinite;
-        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
+        .timer-display { font-weight: 800; color: #0277bd; margin-bottom: 12px; }
+        .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .game-nav-buttons { display: flex; justify-content: space-between; gap: 10px; }
 
-        .timer-display {
-            font-weight: 800;
-            color: #0277bd;
-            margin-bottom: 12px;
-        }
+        .congrats-card { text-align: center; }
+        .badge-icon { font-size: 4rem; }
+        .congrats-card h2 { font-family: 'Fredoka', cursive; color: #2e7d32; margin: 10px 0; }
+        .summary-box { background: #f1f8e9; border: 2px solid #c8e6c9; border-radius: 14px; padding: 15px; margin-bottom: 20px; text-align: left; }
+        .recordings-list { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; max-height: 200px; overflow-y: auto; }
+        .rec-item { background: white; padding: 10px; border-radius: 8px; font-size: 0.9rem; border: 1px solid #c8e6c9; }
 
-        .controls-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .game-nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        /* HALAMAN TAMAT */
-        .congrats-card {
-            text-align: center;
-        }
-
-        .badge-icon {
-            font-size: 4rem;
-        }
-
-        .congrats-card h2 {
-            font-family: 'Fredoka', cursive;
-            color: #2e7d32;
-            margin: 10px 0;
-        }
-
-        .congrats-msg {
-            font-size: 1.1rem;
-            color: #37474f;
-            margin-bottom: 20px;
-        }
-
-        .summary-box {
-            background: #f1f8e9;
-            border: 2px solid #c8e6c9;
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .recordings-list {
-            margin-top: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .rec-item {
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            border: 1px solid #c8e6c9;
-        }
-
-        .rec-item p {
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        /* RESPONSIF MOBIL */
         @media (max-width: 600px) {
             .app-container { padding: 15px; }
             h1 { font-size: 1.7rem; }
             .controls-grid { grid-template-columns: 1fr; }
             .game-nav-buttons { flex-direction: column; }
-            .question-text { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ==========================================
-         2. STRUKTUR HTML
-         ========================================== -->
     <div class="app-container">
-        <!-- PERINGATAN KESELAMATAN -->
         <div id="mic-notice" class="notice-banner">
             <span class="notice-icon">💡</span>
             <p>Rakaman suara digunakan untuk aktiviti pembelajaran sahaja. Sila benarkan akses mikrofon atau minta bantuan guru/ibu bapa.</p>
         </div>
 
-        <!-- HALAMAN UTAMA -->
+        <!-- HOME SCREEN -->
         <section id="home-screen" class="screen active">
             <header class="main-header">
                 <span class="badge">Bahasa Melayu Tahun 4</span>
@@ -432,19 +261,11 @@
 
             <div class="hero-illustration">
                 <div class="canteen-bg">
-                    <div class="canteen-window">🏫</div>
-                    <div class="canteen-table">🍽️ 🍎 🥛</div>
-                    <div class="dustbin">🗑️</div>
+                    <span>🏫</span> <span>🍽️ 🍎 🥛</span> <span>🗑️</span>
                 </div>
                 <div class="characters-wrapper">
-                    <div class="character-card">
-                        <div class="avatar">👦🏻</div>
-                        <span class="char-name">Hadif</span>
-                    </div>
-                    <div class="character-card">
-                        <div class="avatar">👧🏽</div>
-                        <span class="char-name">Deena</span>
-                    </div>
+                    <div class="character-card"><div class="avatar">👦🏻</div><span class="char-name">Hadif</span></div>
+                    <div class="character-card"><div class="avatar">👧🏽</div><span class="char-name">Deena</span></div>
                 </div>
             </div>
 
@@ -455,21 +276,18 @@
             </div>
         </section>
 
-        <!-- HALAMAN CARA BERMAIN -->
+        <!-- HOW TO PLAY SCREEN -->
         <section id="how-screen" class="screen">
             <h2>📖 Cara Bermain</h2>
             <div class="instructions-card">
                 <ol class="steps-list">
-                    <li><span class="step-num">1</span> Tekan butang <strong>🔊 Dengar Soalan</strong> untuk mendengar soalan daripada Hadif/Deena.</li>
-                    <li><span class="step-num">2</span> Tekan butang <strong>🎙️ Mula Rakaman</strong> untuk mula bercakap.</li>
+                    <li><span class="step-num">1</span> Tekan butang <strong>🔊 Dengar Soalan</strong> untuk mendengar soalan.</li>
+                    <li><span class="step-num">2</span> Tekan <strong>🎙️ Mula Rakaman</strong> untuk mula bercakap.</li>
                     <li><span class="step-num">3</span> Jawab soalan secara lisan dengan jelas.</li>
                     <li><span class="step-num">4</span> Tekan <strong>⏹️ Hentikan Rakaman</strong> setelah selesai.</li>
                     <li><span class="step-num">5</span> Dengarkan semula jawapan menggunakan <strong>▶️ Dengar Jawapan</strong>.</li>
-                    <li><span class="step-num">6</span> Tekan <strong>✅ Hantar Jawapan</strong> untuk terus ke soalan seterusnya!</li>
+                    <li><span class="step-num">6</span> Tekan <strong>✅ Hantar Jawapan</strong> untuk ke soalan seterusnya!</li>
                 </ol>
-                <div class="tip-box">
-                    🌟 <strong>Peringatan Detektif:</strong> Jawab dengan suara yang jelas, sopan dan yakin!
-                </div>
             </div>
             <div class="navigation-buttons">
                 <button id="btn-back-home-1" class="btn btn-secondary">⬅️ Kembali</button>
@@ -477,56 +295,41 @@
             </div>
         </section>
 
-        <!-- HALAMAN TENTANG PERMAINAN -->
+        <!-- ABOUT SCREEN -->
         <section id="about-screen" class="screen">
             <h2>ℹ️ Tentang Permainan</h2>
             <div class="info-card">
                 <h3>Misi Detektif Kantin Bersih</h3>
-                <p>Permainan ini direka khusus untuk murid Tahun 4 Sekolah Rendah di Malaysia bagi menguji kefahaman serta kemahiran bertutur dalam Bahasa Melayu menerusi tema Kebersihan dan Kesihatan Kantin.</p>
-                <hr style="margin: 10px 0;">
-                <h4>🎯 Objektif Pembelajaran:</h4>
-                <ul style="margin-left: 20px; margin-top: 5px;">
-                    <li>Menguji kefahaman tentang amalan kebersihan kantin.</li>
-                    <li>Melatih kemahiran bertutur secara lisan menggunakan ayat yang betul.</li>
-                    <li>Membolehkan guru mendengar dan menilai jawapan lisan murid.</li>
-                </ul>
+                <p>Permainan ini direka khusus untuk murid Tahun 4 Sekolah Rendah di Malaysia bagi menguji kefahaman serta kemahiran bertutur dalam Bahasa Melayu.</p>
             </div>
             <button id="btn-back-home-2" class="btn btn-secondary">⬅️ Kembali ke Halaman Utama</button>
         </section>
 
-        <!-- PAPARAN SOALAN -->
+        <!-- GAME SCREEN -->
         <section id="game-screen" class="screen">
             <div class="progress-container">
                 <div class="progress-label">
                     <span id="question-number-text">Soalan 1 daripada 6</span>
                     <span id="progress-percent">0%</span>
                 </div>
-                <div class="progress-bar-bg">
-                    <div id="progress-bar-fill" class="progress-bar-fill"></div>
-                </div>
+                <div class="progress-bar-bg"><div id="progress-bar-fill" class="progress-bar-fill"></div></div>
             </div>
 
             <div class="question-card">
                 <div class="character-header">
                     <div id="char-avatar" class="avatar-small">👦🏻</div>
                     <div>
-                        <span class="char-label">Detektif Bertanya:</span>
+                        <span style="font-size:0.8rem; color:#78909c;">Detektif Bertanya:</span>
                         <h3 id="char-name-display">Hadif</h3>
                     </div>
                 </div>
 
-                <div class="question-body">
-                    <p id="question-text" class="question-text">Pemuatan soalan...</p>
-                </div>
+                <p id="question-text" class="question-text">Pemuatan soalan...</p>
 
-                <div class="audio-control-box">
-                    <button id="btn-listen-question" class="btn btn-speak">🔊 Dengar Soalan</button>
-                </div>
+                <button id="btn-listen-question" class="btn btn-speak">🔊 Dengar Soalan</button>
 
                 <div class="recording-zone">
-                    <div id="recording-status" class="status-indicator">
-                        Status: Tekan "Mula Rakaman" untuk menjawab.
-                    </div>
+                    <div id="recording-status" class="status-indicator">Status: Tekan "Mula Rakaman" untuk menjawab.</div>
                     <div id="timer-display" class="timer-display">Masa: 00:00</div>
 
                     <div class="controls-grid">
@@ -546,18 +349,16 @@
             </div>
         </section>
 
-        <!-- HALAMAN TAMAT -->
+        <!-- END SCREEN -->
         <section id="end-screen" class="screen">
             <div class="congrats-card">
                 <div class="badge-icon">🏅</div>
                 <h2>TAHNIAH, DETEKTIF KANTIN BERSIH! 🎉</h2>
-                <p class="congrats-msg">Syabas! Kamu telah menyelesaikan semua misi. Teruskan amalan menjaga kebersihan dan kesihatan kantin.</p>
+                <p>Syabas! Kamu telah menyelesaikan semua misi.</p>
                 
                 <div class="summary-box">
                     <h3>📜 Ringkasan Misi</h3>
                     <p>Status: <strong style="color: #2e7d32;">6 daripada 6 Soalan Dijawab</strong></p>
-                    <p style="font-size:0.85rem; color:#666; margin-top:4px;">Guru boleh mendengar rakaman jawapan di bawah:</p>
-                    
                     <div id="recordings-list" class="recordings-list"></div>
                 </div>
 
@@ -569,59 +370,14 @@
         </section>
     </div>
 
-    <!-- ==========================================
-         3. LOGIK JAVASCRIPT (SCRIPT)
-         ========================================== -->
     <script>
         const questionsData = [
-            {
-                id: 1,
-                character: "Hadif",
-                avatar: "👦🏻",
-                question: "Apakah yang perlu kita lakukan sebelum makan?",
-                sampleAnswer: "Kita perlu membasuh tangan sebelum makan.",
-                focus: "Kebersihan diri"
-            },
-            {
-                id: 2,
-                character: "Deena",
-                avatar: "👧🏽",
-                question: "Di manakah kita perlu membuang sampah?",
-                sampleAnswer: "Kita perlu membuang sampah ke dalam tong sampah.",
-                focus: "Pengurusan sampah yang betul"
-            },
-            {
-                id: 3,
-                character: "Hadif",
-                avatar: "👦🏻",
-                question: "Mengapakah kita perlu membasuh tangan sebelum makan?",
-                sampleAnswer: "Supaya tangan bersih dan bebas daripada kuman.",
-                focus: "Kepentingan kebersihan tangan"
-            },
-            {
-                id: 4,
-                character: "Deena",
-                avatar: "👧🏽",
-                question: "Apakah yang perlu kita lakukan jika meja makan kotor?",
-                sampleAnswer: "Kita perlu membersihkan meja makan.",
-                focus: "Menjaga kebersihan tempat makan"
-            },
-            {
-                id: 5,
-                character: "Hadif",
-                avatar: "👦🏻",
-                question: "Apakah yang perlu kita lakukan jika tangan kita kotor?",
-                sampleAnswer: "Kita perlu membasuh tangan dengan sabun.",
-                focus: "Amalan mencuci tangan"
-            },
-            {
-                id: 6,
-                character: "Deena",
-                avatar: "👧🏽",
-                question: "Apakah yang perlu kita lakukan apabila melihat sampah di lantai kantin?",
-                sampleAnswer: "Kita perlu mengutip sampah dan membuangnya ke dalam tong sampah.",
-                focus: "Tanggungjawab menjaga kebersihan kantin"
-            }
+            { id: 1, character: "Hadif", avatar: "👦🏻", question: "Apakah yang perlu kita lakukan sebelum makan?" },
+            { id: 2, character: "Deena", avatar: "👧🏽", question: "Di manakah kita perlu membuang sampah?" },
+            { id: 3, character: "Hadif", avatar: "👦🏻", question: "Mengapakah kita perlu membasuh tangan sebelum makan?" },
+            { id: 4, character: "Deena", avatar: "👧🏽", question: "Apakah yang perlu kita lakukan jika meja makan kotor?" },
+            { id: 5, character: "Hadif", avatar: "👦🏻", question: "Apakah yang perlu kita lakukan jika tangan kita kotor?" },
+            { id: 6, character: "Deena", avatar: "👧🏽", question: "Apakah yang perlu kita lakukan apabila melihat sampah di lantai kantin?" }
         ];
 
         let currentQuestionIndex = 0;
@@ -686,18 +442,47 @@
             loadQuestion();
         });
 
+        // TETAPAN SUARA BAKU BAHASA MELAYU & NADA KANAK-KANAK
         function speakQuestion() {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const qData = questionsData[currentQuestionIndex];
                 const utterance = new SpeechSynthesisUtterance(qData.question);
+
+                // Tetapkan Bahasa Melayu Baku
                 utterance.lang = "ms-MY";
-                utterance.rate = 0.85;
-                utterance.pitch = (qData.character === "Hadif") ? 1.1 : 1.2;
+
+                // Memuat senarai suara yang disokong oleh peranti/peramban
+                const voices = window.speechSynthesis.getVoices();
+                
+                // Cari suara Bahasa Melayu (ms) atau Bahasa Indonesia (id)
+                const malayVoice = voices.find(v => v.lang.includes('ms') || v.lang.includes('id'));
+                if (malayVoice) {
+                    utterance.voice = malayVoice;
+                }
+
+                // Tetapkan Nada & Kelajuan
+                utterance.rate = 0.9; // Kelajuan sebutan baku yang jelas
+
+                if (qData.character === "Hadif") {
+                    // Hadif: Budak Lelaki (Nada tinggi sederhana)
+                    utterance.pitch = 1.5; 
+                } else {
+                    // Deena: Budak Perempuan (Nada lebih tinggi & ceria)
+                    utterance.pitch = 1.8; 
+                }
+
                 window.speechSynthesis.speak(utterance);
             } else {
-                alert("Peranti anda tidak menyokong bacaan suara automatik.");
+                alert("Peranti anda tidak menyokong fungsi bacaan suara.");
             }
+        }
+
+        // Memastikan senarai suara sedia dimuatkan oleh peramban
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
         }
 
         btnListenQuestion.addEventListener('click', speakQuestion);
@@ -782,7 +567,7 @@
                 }, 1000);
 
             } catch (err) {
-                alert("Mikrofon belum dibenarkan. Sila benarkan akses mikrofon pada pelayar anda.");
+                alert("Mikrofon belum dibenarkan. Sila benarkan akses mikrofon pada pelayar.");
                 recordingStatus.innerText = "Status: Akses mikrofon ditolak.";
             }
         }
