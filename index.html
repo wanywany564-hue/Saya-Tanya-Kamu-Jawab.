@@ -111,10 +111,11 @@
 
         .hero-img {
             width: 100%;
-            max-height: 250px;
-            object-fit: cover;
+            max-height: 260px;
+            object-fit: contain;
             border-radius: 12px;
             border: 2px solid #81d4fa;
+            background-color: #f5f5f5;
         }
 
         .action-buttons, .navigation-buttons, .end-actions {
@@ -199,6 +200,7 @@
             border-radius: 12px;
             border: 2px solid #b2ebf2;
             object-fit: contain;
+            background-color: #fafafa;
         }
 
         .question-text { 
@@ -243,13 +245,13 @@
 </head>
 <body>
 
-    <!-- ELEMEN AUDIO EFEK BUNYI -->
+    <!-- ELEMEN AUDIO KESAN BUNYI -->
     <audio id="sound-click" src="click.mp3" preload="auto"></audio>
     <audio id="sound-cheer" src="cheer.mp3" preload="auto"></audio>
 
     <div class="app-container">
         <div id="mic-notice" class="notice-banner">
-            <p>Aktiviti ini memerlukan akses mikrofon untuk merakam jawapan secara lisan.</p>
+            <p>Rakaman suara digunakan untuk aktiviti pembelajaran sahaja. Sila benarkan akses mikrofon atau minta bantuan guru/ibu bapa.</p>
         </div>
 
         <!-- HOME SCREEN -->
@@ -261,7 +263,7 @@
             </header>
 
             <div class="hero-illustration">
-                <img src="banner.png" alt="Kantin Bersih" class="hero-img" onerror="this.onerror=null; this.src='gambar1.png';">
+                <img src="banner.png" alt="Gambar Banner Kantin" class="hero-img" onerror="this.onerror=null; this.src='gambar1.png';">
             </div>
 
             <div class="action-buttons">
@@ -311,7 +313,7 @@
 
             <div class="question-card">
                 <div class="question-image-container">
-                    <img id="question-image" src="" alt="Gambar Soalan" class="question-img">
+                    <img id="question-image" src="gambar1.png" alt="Gambar Soalan" class="question-img">
                 </div>
 
                 <p id="question-text" class="question-text">Pemuatan soalan...</p>
@@ -377,29 +379,30 @@
         let recordingTimer = null;
         let secondsRecorded = 0;
 
-        // Elemen Audio Sound Effects
-        const soundClick = document.getElementById('sound-click');
-        const soundCheer = document.getElementById('sound-cheer');
-
-        // Fungsi memainkan bunyi klik
+        // Fungsi Memainkan Bunyi Klik
         function playClickSound() {
+            const soundClick = document.getElementById('sound-click');
             if (soundClick) {
                 soundClick.currentTime = 0;
-                soundClick.play().catch(e => console.log("Sound click error:", e));
+                soundClick.play().catch(e => console.log("Click sound error:", e));
             }
         }
 
-        // Fungsi memainkan bunyi sorakan
+        // Fungsi Memainkan Bunyi Sorakan
         function playCheerSound() {
+            const soundCheer = document.getElementById('sound-cheer');
             if (soundCheer) {
                 soundCheer.currentTime = 0;
-                soundCheer.play().catch(e => console.log("Sound cheer error:", e));
+                soundCheer.play().catch(e => console.log("Cheer sound error:", e));
             }
         }
 
-        // Tambah acara bunyi klik secara automatik pada semua butang
-        document.querySelectorAll('button').forEach(button => {
-            button.addEventListener('click', playClickSound);
+        // Picu bunyi klik pada setiap elemen tombol
+        document.addEventListener('click', function(e) {
+            const target = e.target.closest('button');
+            if (target) {
+                playClickSound();
+            }
         });
 
         const screens = {
@@ -482,7 +485,7 @@
             progressBarFill.style.width = `${percent}%`;
 
             questionImage.src = q.imageFile;
-            questionText.innerText = `${q.question}`;
+            questionText.innerText = `"${q.question}"`;
 
             resetRecordingUI();
 
@@ -594,7 +597,6 @@
             } else {
                 renderEndScreen();
                 showScreen('end');
-                // Mainkan Sound 2 (bunyi sorakan/kejayaan) apabila selesai semua soalan
                 playCheerSound();
             }
         });
