@@ -327,6 +327,7 @@
                 <p id="question-text" class="question-text">Pemuatan soalan...</p>
 
                 <button id="btn-listen-question" class="btn btn-speak">🔊 Dengar Soalan</button>
+                <audio id="question-audio-player" style="display:none;"></audio>
 
                 <div class="recording-zone">
                     <div id="recording-status" class="status-indicator">Status: Tekan "Mula Rakaman" untuk menjawab.</div>
@@ -372,12 +373,12 @@
 
     <script>
         const questionsData = [
-            { id: 1, character: "Hadif", avatar: "👦🏻", question: "Apakah yang perlu kita lakukan sebelum makan?" },
-            { id: 2, character: "Deena", avatar: "👧🏽", question: "Di manakah kita perlu membuang sampah?" },
-            { id: 3, character: "Hadif", avatar: "👦🏻", question: "Mengapakah kita perlu membasuh tangan sebelum makan?" },
-            { id: 4, character: "Deena", avatar: "👧🏽", question: "Apakah yang perlu kita lakukan jika meja makan kotor?" },
-            { id: 5, character: "Hadif", avatar: "👦🏻", question: "Apakah yang perlu kita lakukan jika tangan kita kotor?" },
-            { id: 6, character: "Deena", avatar: "👧🏽", question: "Apakah yang perlu kita lakukan apabila melihat sampah di lantai kantin?" }
+            { id: 1, character: "Hadif", avatar: "👦🏻", question: "Apakah yang perlu kita lakukan sebelum makan?", audioFile: "soalan1.mp3" },
+            { id: 2, character: "Deena", avatar: "👧🏽", question: "Di manakah kita perlu membuang sampah?", audioFile: "soalan2.mp3" },
+            { id: 3, character: "Hadif", avatar: "👦🏻", question: "Mengapakah kita perlu membasuh tangan sebelum makan?", audioFile: "soalan3.mp3" },
+            { id: 4, character: "Deena", avatar: "👧🏽", question: "Apakah yang perlu kita lakukan jika meja makan kotor?", audioFile: "soalan4.mp3" },
+            { id: 5, character: "Hadif", avatar: "👦🏻", question: "Apakah yang perlu kita lakukan jika tangan kita kotor?", audioFile: "soalan5.mp3" },
+            { id: 6, character: "Deena", avatar: "👧🏽", question: "Apakah yang perlu kita lakukan apabila melihat sampah di lantai kantin?", audioFile: "soalan6.mp3" }
         ];
 
         let currentQuestionIndex = 0;
@@ -412,6 +413,7 @@
         const questionText = document.getElementById('question-text');
 
         const btnListenQuestion = document.getElementById('btn-listen-question');
+        const questionAudioPlayer = document.getElementById('question-audio-player');
         const btnStartRec = document.getElementById('btn-start-rec');
         const btnStopRec = document.getElementById('btn-stop-rec');
         const btnPlayRec = document.getElementById('btn-play-rec');
@@ -442,52 +444,14 @@
             loadQuestion();
         });
 
-        // ENJIN SUARA BAHASA MELAYU BAKU & NADA KANAK-KANAK
-        function speakQuestion() {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const qData = questionsData[currentQuestionIndex];
-                
-                // Menggunakan teks soalan
-                let textToSpeak = qData.question;
-                
-                const utterance = new SpeechSynthesisUtterance(textToSpeak);
-
-                // Tetapkan kod bahasa baku Bahasa Melayu
-                utterance.lang = "ms-MY";
-
-                // Cari enjin suara Bahasa Melayu atau Indonesia
-                const voices = window.speechSynthesis.getVoices();
-                let selectedVoice = voices.find(v => v.lang.toLowerCase().includes('ms') || v.lang.toLowerCase().includes('id'));
-                
-                // Jika jumpa suara tempatan, gunakan
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-
-                // Tetapkan kelajuan perlahan & jelas untuk sebutan baku
-                utterance.rate = 0.85;
-
-                // Laraskan pitch mengikut watak budak lelaki & perempuan
-                if (qData.character === "Hadif") {
-                    utterance.pitch = 1.8; // Suara budak lelaki yang tinggi & comel
-                } else {
-                    utterance.pitch = 2.0; // Suara budak perempuan yang paling tinggi & lantang
-                }
-
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("Peranti anda tidak menyokong fungsi bacaan suara.");
-            }
-        }
-
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = () => {
-                window.speechSynthesis.getVoices();
-            };
-        }
-
-        btnListenQuestion.addEventListener('click', speakQuestion);
+        // FUNGSI UNTUK MEMUTAR FILE MP3 ASLI SOALAN
+        btnListenQuestion.addEventListener('click', () => {
+            const qData = questionsData[currentQuestionIndex];
+            questionAudioPlayer.src = qData.audioFile;
+            questionAudioPlayer.play().catch(e => {
+                alert("File audio " + qData.audioFile + " tidak dijumpai dalam GitHub.");
+            });
+        });
 
         function loadQuestion() {
             const q = questionsData[currentQuestionIndex];
@@ -496,6 +460,7 @@
             progressPercent.innerText = `${percent}%`;
             progressBarFill.style.width = `${percent}%`;
 
+            // PERTUKARAN NAMA & AVATAR DETEKTIF BERDASARKAN SOALAN
             charAvatar.innerText = q.avatar;
             charNameDisplay.innerText = q.character;
             questionText.innerText = `"${q.question}"`;
@@ -531,14 +496,22 @@
             audioChunks = [];
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
+                
+                let mimeType = 'audio/webm';
+                if (MediaRecorder.isTypeSupported('audio/mp4')) {
+                    mimeType = 'audio/mp4';
+                } else if (MediaRecorder.isTypeSupported('audio/aac')) {
+                    mimeType = 'audio/aac';
+                }
+
+                mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
 
                 mediaRecorder.ondataavailable = (e) => {
                     if (e.data.size > 0) audioChunks.push(e.data);
                 };
 
                 mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    const audioBlob = new Blob(audioChunks, { type: mimeType });
                     recordedAudios[currentQuestionIndex] = audioBlob;
                     
                     audioPlayback.src = URL.createObjectURL(audioBlob);
@@ -605,7 +578,6 @@
             }
         });
 
-        btnPrevQuestion.disabled = true;
         btnPrevQuestion.addEventListener('click', () => {
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
